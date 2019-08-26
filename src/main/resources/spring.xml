@@ -5,10 +5,10 @@
 
     <!-- 视图渲染 -->
     <bean id="serviceRegistry" class="ot.tch.rpc.serviceRegistry.ServiceRegistry">
-        <property name="connectUrl" value="${}"/>
+        <property name="address" value="${zookeeper.address}"/>
     </bean>
 
-    <bean id="rpcServer" class="ot.tch.rpc.serviceRegistry.ServiceRegistry">
-    </bean>
+    <!--<bean id="rpcServer" class="ot.tch.rpc.serviceRegistry.ServiceRegistry">
+    </bean>-->
 
 </beans>
