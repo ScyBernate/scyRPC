@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
-    <!-- 视图渲染 -->
-    <bean id="serviceRegistry" class="ot.tch.rpc.serviceRegistry.ServiceRegistry">
+    <context:component-scan base-package="ot.tch.rpc.*"/>
+    <context:property-placeholder location="classpath:application.properties"/>
+
+    <!-- 服务注册 -->
+    <bean id="serviceRegistry" class="ot.tch.rpc.provider.serviceRegistry.ServiceRegistry">
         <property name="address" value="${zookeeper.address}"/>
     </bean>
 
-    <!--<bean id="rpcServer" class="ot.tch.rpc.serviceRegistry.ServiceRegistry">
-    </bean>-->
+    <!-- 请求服务器 -->
+    <bean id="rpcServer" class="ot.tch.rpc.provider.rpcServer.RpcServer">
+        <property name="address" value="${netty.address}"/>
+        <property name="serviceRegistry" ref="serviceRegistry"/>
+    </bean>
+
 
 </beans>

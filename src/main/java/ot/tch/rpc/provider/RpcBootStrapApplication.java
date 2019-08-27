@@ -1,4 +1,4 @@
-package ot.tch.rpc;
+package ot.tch.rpc.provider;
 
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -6,7 +6,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class RpcBootStrapApplication{
 
 	public static void main(String[] args) {
-		new ClassPathXmlApplicationContext(":spring.xml");
+		new ClassPathXmlApplicationContext("spring.xml");
 	}
 
 }

@@ -1,12 +1,16 @@
-package ot.tch.rpc.serviceRegistry;
+package ot.tch.rpc.provider.serviceRegistry;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.zookeeper.*;
-import ot.tch.rpc.Global;
+import ot.tch.rpc.provider.Global;
 
 import java.io.IOException;
+import java.nio.file.WatchEvent;
 import java.util.concurrent.CountDownLatch;
 
+/**
+ * 服务通过zookeeper注册临时节点实现
+ */
 @Slf4j
 public class ServiceRegistry {
 
@@ -14,13 +18,23 @@ public class ServiceRegistry {
 
     private String address;
 
+    //注册服务
+    public void register(String path){
+        ZooKeeper zooKeeper = connectZk();
+        if (zooKeeper != null) {
+            createNode(zooKeeper, path);
+        }
+    }
+
     //连接zk
     public ZooKeeper connectZk(){
         try {
             ZooKeeper zk = new ZooKeeper(address, 10000, new Watcher() {
                 public void process(WatchedEvent event) {
-                    countDownLatch.countDown();
-                    log.info("zookeeper 连接成功...");
+                    if(event.getState()== Event.KeeperState.SyncConnected){
+                        countDownLatch.countDown();
+                        log.info("zookeeper 连接成功...");
+                    }
                 }
             });
             countDownLatch.await();
@@ -36,8 +50,8 @@ public class ServiceRegistry {
             if(zooKeeper!=null){
                 byte[] bytes = url.getBytes();
                 //创建临时有序的节点
-                String path = zooKeeper.create(Global.REGISTER_ROOT_PATH, bytes, ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
-                log.debug("create zookeeper node ({} => {})", path, url);
+                String path = zooKeeper.create(Global.REGISTER_PATH, bytes, ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
+                log.info("create zookeeper node ({} => {})", path, url);
             }
         } catch (KeeperException e) {
             e.printStackTrace();

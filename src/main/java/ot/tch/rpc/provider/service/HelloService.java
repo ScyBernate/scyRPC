@@ -1,4 +1,4 @@
-package ot.tch.rpc.service;
+package ot.tch.rpc.provider.service;
 
 public interface HelloService {
 
