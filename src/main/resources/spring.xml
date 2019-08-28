@@ -19,4 +19,13 @@
     </bean>
 
 
+    <bean id="rpcProxy" class="ot.tch.rpc.consumer.proxy.RpcProxy">
+        <property name="serviceDiscovery" ref="serviceDiscovery"/>
+    </bean>
+
+    <bean id="serviceDiscovery" class="ot.tch.rpc.consumer.serviceDiscovery.ServiceDiscovery">
+        <constructor-arg value="${zookeeper.address}"/>
+    </bean>
+
+
 </beans>

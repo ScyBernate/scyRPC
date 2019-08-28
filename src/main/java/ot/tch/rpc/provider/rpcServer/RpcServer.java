@@ -11,6 +11,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.logging.LoggingHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import ot.tch.rpc.provider.annotation.RPC;
@@ -22,7 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
-public class RpcServer implements ApplicationContextAware {
+public class RpcServer implements ApplicationContextAware, InitializingBean {
 
     //存放所有提供服务的实体类
     public static final Map<String, Class<?>> serviceMap = new HashMap<>();
@@ -40,12 +41,16 @@ public class RpcServer implements ApplicationContextAware {
             serviceMap.put(interfaceName,val.getClass());
         }
         if(serviceMap.size()==0){
-            log.info("扫描未找到服务方法...");
+            log.error("未找到服务方法...");
         }
-        run(address);
     }
 
-    public void run(String address) {
+    /**
+     * netty服务启动会堵塞住当前线程的，保证该方法执行在setApplicationContext之后
+     * @throws Exception
+     */
+    @Override
+    public void afterPropertiesSet() throws Exception {
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         try {
@@ -85,5 +90,6 @@ public class RpcServer implements ApplicationContextAware {
     public void setServiceRegistry(ServiceRegistry serviceRegistry){
         this.serviceRegistry = serviceRegistry;
     }
+
 
 }

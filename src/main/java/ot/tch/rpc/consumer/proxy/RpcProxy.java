@@ -1,5 +1,6 @@
 package ot.tch.rpc.consumer.proxy;
 
+import org.springframework.util.StringUtils;
 import ot.tch.rpc.consumer.RpcClient;
 import ot.tch.rpc.consumer.serviceDiscovery.ServiceDiscovery;
 import ot.tch.rpc.provider.model.RpcRequest;
@@ -28,11 +29,11 @@ public class RpcProxy {
                 request.setParameterType(method.getParameterTypes());
                 request.setParameter(args);
 
-                List<String> address = serviceDiscovery.discovery(); //查找可用服务节点
-                if(address==null){
+                String address = serviceDiscovery.discovery(); //查找可用服务节点
+                if(StringUtils.isEmpty(address)){
                     throw new Exception("无可用服务");
                 }
-                String[] serviceAddress = address.get(0).split(":");
+                String[] serviceAddress = address.split(":");
                 RpcClient client = new RpcClient(serviceAddress[0],serviceAddress[1]);
                 RpcResponse response = client.send(request);
                 if(response.hasError()){

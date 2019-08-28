@@ -19,6 +19,11 @@ public class RpcHandler extends ChannelInboundHandlerAdapter {
     }
 
     @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        ctx.close();
+    }
+
+    @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
         RpcResponse response = new RpcResponse();
         try {

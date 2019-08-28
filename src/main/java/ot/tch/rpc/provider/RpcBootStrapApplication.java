@@ -1,6 +1,5 @@
 package ot.tch.rpc.provider;
 
-
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class RpcBootStrapApplication{

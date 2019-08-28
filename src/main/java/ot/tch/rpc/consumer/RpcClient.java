@@ -11,6 +11,7 @@ import ot.tch.rpc.provider.model.RpcResponse;
 import ot.tch.rpc.provider.rpcServer.RpcDecoder;
 import ot.tch.rpc.provider.rpcServer.RpcEncoder;
 import ot.tch.rpc.provider.service.CountService;
+import ot.tch.rpc.provider.service.HelloService;
 
 public class RpcClient extends SimpleChannelInboundHandler<RpcResponse>{
 
@@ -69,7 +70,7 @@ public class RpcClient extends SimpleChannelInboundHandler<RpcResponse>{
                 lock.wait();
             }
             if(response!=null){
-               f.channel().close();
+                f.channel().close();
             }
             return response;
         } catch (InterruptedException e) {
@@ -81,12 +82,13 @@ public class RpcClient extends SimpleChannelInboundHandler<RpcResponse>{
     }
 
     public static void main(String[] args) {
-        ServiceDiscovery serviceDiscovery = new ServiceDiscovery();
-        serviceDiscovery.setAddress("106.12.78.128:2181");
+        ServiceDiscovery serviceDiscovery = new ServiceDiscovery("106.12.78.128:2181");
         RpcProxy proxy = new RpcProxy();
         proxy.setServiceDiscovery(serviceDiscovery);
         CountService service = proxy.createByJdk(CountService.class);
         System.out.println(service.count(3,4));
+        HelloService helloService = proxy.createByJdk(HelloService.class);
+        helloService.hello();
 
     }
 

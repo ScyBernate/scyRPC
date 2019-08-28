@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * 监听zk服务节点
@@ -17,15 +18,26 @@ public class ServiceDiscovery {
 
     private CountDownLatch countDownLatch = new CountDownLatch(1);
 
+    //服务节点
+    private volatile List<String> serverNodes = new ArrayList<>();
+
     private String address;
 
-    //查询临时服务节点
-    public List<String> discovery() {
-        ZooKeeper zooKeeper = connectZk();
-        if (zooKeeper != null) {
-            return queryNodes(zooKeeper);
+    public ServiceDiscovery(String address) {
+        this.address = address;
+        ZooKeeper zk = connectZk();
+        if (zk != null) {
+            queryNodes(zk);
         }
-        return null;
+    }
+
+    //查询可用节点的第一个
+    public String discovery() {
+        if (serverNodes.size() == 1) {
+            return serverNodes.get(0);
+        } else {
+            return serverNodes.get(ThreadLocalRandom.current().nextInt(serverNodes.size()));
+        }
     }
 
     //连接zk
@@ -47,8 +59,7 @@ public class ServiceDiscovery {
     }
 
     //查找服务根节点下的子节点列表
-    private List<String> queryNodes(ZooKeeper zooKeeper) {
-        List<String> serverList = new ArrayList<>();
+    private void queryNodes(ZooKeeper zooKeeper) {
         try {
             if (zooKeeper != null) {
                 //获取子节点的名称
@@ -61,8 +72,8 @@ public class ServiceDiscovery {
                     }
                 });
                 for (String node : nodelist) {
-                   byte[] nodeInfo = zooKeeper.getData(Global.REGISTER_ROOT_PATH + "/" + node, false, null);
-                   serverList.add(new String(nodeInfo));
+                    byte[] nodeInfo = zooKeeper.getData(Global.REGISTER_ROOT_PATH + "/" + node, false, null);
+                    serverNodes.add(new String(nodeInfo));
                 }
             }
         } catch (KeeperException e) {
@@ -70,19 +81,13 @@ public class ServiceDiscovery {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        log.info("查找的可用服务列表："+serverList);
-        return serverList;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
+        log.info("查找的可用服务列表：" + serverNodes);
     }
 
     public static void main(String[] args) {
-        ServiceDiscovery sr = new ServiceDiscovery();
-        sr.setAddress("106.12.78.128:2181");
+        ServiceDiscovery sr = new ServiceDiscovery("106.12.78.128:2181");
         ZooKeeper zooo = sr.connectZk();
-        List<String> ss = sr.queryNodes(zooo);
-        System.out.println(ss.get(0));
+        sr.queryNodes(zooo);
+        System.out.println(sr.serverNodes);
     }
 }
