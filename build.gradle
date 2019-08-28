@@ -15,7 +15,7 @@ jar {
     manifestContentCharset 'utf-8'
     metadataCharset 'utf-8'
     manifest {
-        attributes "Main-Class": "scyRPC"
+        attributes "Main-Class": "ot.tch.rpc.provider.RpcBootStrapApplication"
     }
     from {
         configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
@@ -34,13 +34,14 @@ sourceCompatibility = 1.8
 
 dependencies {
     compile 'org.springframework:spring-context:5.1.9.RELEASE'
-    compile 'org.apache.zookeeper:zookeeper:3.5.5'
+    compile 'org.apache.zookeeper:zookeeper:3.4.13'
+    compile 'com.google.guava:guava:19.0'
     compile 'io.netty:netty-all:4.1.36.Final'
     compile 'org.slf4j:slf4j-log4j12:1.7.28'
     compile 'io.protostuff:protostuff-runtime:1.6.0'
     compile 'org.projectlombok:lombok:1.16.14'
+    compile 'io.protostuff:protostuff-core:1.6.0'
 
-    testCompile 'io.protostuff:protostuff-core:1.6.0'
     testCompile 'junit:junit:4.12'
     testCompile 'org.springframework:spring-test:5.1.9.RELEASE'
 
