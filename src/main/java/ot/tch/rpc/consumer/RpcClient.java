@@ -81,10 +81,11 @@ public class RpcClient extends SimpleChannelInboundHandler<RpcResponse>{
         return null;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         ServiceDiscovery serviceDiscovery = new ServiceDiscovery("106.12.78.128:2181");
         RpcProxy proxy = new RpcProxy();
         proxy.setServiceDiscovery(serviceDiscovery);
+        System.out.println(serviceDiscovery.serverNodes);
         CountService service = proxy.createByJdk(CountService.class);
         System.out.println(service.count(3,4));
         HelloService helloService = proxy.createByJdk(HelloService.class);

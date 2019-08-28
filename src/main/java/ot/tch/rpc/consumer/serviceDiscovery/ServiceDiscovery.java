@@ -19,7 +19,7 @@ public class ServiceDiscovery {
     private CountDownLatch countDownLatch = new CountDownLatch(1);
 
     //服务节点
-    private volatile List<String> serverNodes = new ArrayList<>();
+    public volatile List<String> serverNodes = new ArrayList<>();
 
     private String address;
 
