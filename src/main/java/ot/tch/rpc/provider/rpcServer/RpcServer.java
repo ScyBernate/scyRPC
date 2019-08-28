@@ -14,9 +14,11 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import ot.tch.rpc.common.netty.RpcDecoder;
+import ot.tch.rpc.common.netty.RpcEncoder;
 import ot.tch.rpc.provider.annotation.RPC;
-import ot.tch.rpc.provider.model.RpcRequest;
-import ot.tch.rpc.provider.model.RpcResponse;
+import ot.tch.rpc.common.model.RpcRequest;
+import ot.tch.rpc.common.model.RpcResponse;
 import ot.tch.rpc.provider.serviceRegistry.ServiceRegistry;
 
 import java.util.HashMap;

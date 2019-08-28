@@ -1,9 +1,9 @@
-package ot.tch.rpc.provider.rpcServer;
+package ot.tch.rpc.common.netty;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
-import ot.tch.rpc.provider.utils.SerializationUtil;
+import ot.tch.rpc.common.utils.SerializationUtil;
 
 import java.util.List;
 

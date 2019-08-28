@@ -1,4 +1,4 @@
-package ot.tch.rpc.provider.model;
+package ot.tch.rpc.common.model;
 
 import lombok.Data;
 

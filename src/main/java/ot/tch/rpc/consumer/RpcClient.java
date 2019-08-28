@@ -6,10 +6,10 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import ot.tch.rpc.consumer.proxy.RpcProxy;
 import ot.tch.rpc.consumer.serviceDiscovery.ServiceDiscovery;
-import ot.tch.rpc.provider.model.RpcRequest;
-import ot.tch.rpc.provider.model.RpcResponse;
-import ot.tch.rpc.provider.rpcServer.RpcDecoder;
-import ot.tch.rpc.provider.rpcServer.RpcEncoder;
+import ot.tch.rpc.common.model.RpcRequest;
+import ot.tch.rpc.common.model.RpcResponse;
+import ot.tch.rpc.common.netty.RpcDecoder;
+import ot.tch.rpc.common.netty.RpcEncoder;
 import ot.tch.rpc.provider.service.CountService;
 import ot.tch.rpc.provider.service.HelloService;
 

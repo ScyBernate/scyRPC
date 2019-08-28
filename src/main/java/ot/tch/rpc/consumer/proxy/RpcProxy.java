@@ -3,14 +3,12 @@ package ot.tch.rpc.consumer.proxy;
 import org.springframework.util.StringUtils;
 import ot.tch.rpc.consumer.RpcClient;
 import ot.tch.rpc.consumer.serviceDiscovery.ServiceDiscovery;
-import ot.tch.rpc.provider.model.RpcRequest;
-import ot.tch.rpc.provider.model.RpcResponse;
-import ot.tch.rpc.provider.service.HelloService;
+import ot.tch.rpc.common.model.RpcRequest;
+import ot.tch.rpc.common.model.RpcResponse;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.List;
 import java.util.UUID;
 
 public class RpcProxy {

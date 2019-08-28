@@ -3,8 +3,8 @@ package ot.tch.rpc.provider.rpcServer;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import lombok.extern.slf4j.Slf4j;
-import ot.tch.rpc.provider.model.RpcRequest;
-import ot.tch.rpc.provider.model.RpcResponse;
+import ot.tch.rpc.common.model.RpcRequest;
+import ot.tch.rpc.common.model.RpcResponse;
 
 import java.lang.reflect.Method;
 import java.util.Map;

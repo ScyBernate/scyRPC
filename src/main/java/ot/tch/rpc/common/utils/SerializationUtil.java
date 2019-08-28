@@ -1,10 +1,10 @@
-package ot.tch.rpc.provider.utils;
+package ot.tch.rpc.common.utils;
 
 import io.protostuff.LinkedBuffer;
 import io.protostuff.ProtostuffIOUtil;
 import io.protostuff.Schema;
 import io.protostuff.runtime.RuntimeSchema;
-import ot.tch.rpc.provider.model.RpcResponse;
+import ot.tch.rpc.common.model.RpcResponse;
 
 
 /**
